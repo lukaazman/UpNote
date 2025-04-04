@@ -27,6 +27,3 @@ A lightweight markdown editor built with Python that supports basic markdown syn
 
 ## Usage
 - Open the application either via file explorer or console, and you can start writing markdown.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
