@@ -14,13 +14,11 @@ A lightweight markdown editor built with Python that supports basic markdown syn
   [Download Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
   
 - **PyQt6**  
-  To install, run:
   ```
   pip install PyQt6
   ```
 
 - **Markdown**  
-  To install, run:
   ```
   pip install markdown
   ```
