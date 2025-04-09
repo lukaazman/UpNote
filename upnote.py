@@ -36,7 +36,7 @@ class MarkdownHighlighter(QSyntaxHighlighter):
 
         highlight_format = QTextCharFormat()
         highlight_format.setBackground(QColor('#f745e0'))
-        highlight_format.setForeground(QColor('#45f1f7'))
+        highlight_format.setForeground(QColor('#ffffff'))
         self.highlighting_rules.append((QRegularExpression(r'(==)([^=\n]+)(==)'), [syntax_format, highlight_format, syntax_format]))
 
     def highlightBlock(self, text):
@@ -58,6 +58,16 @@ class MarkdownEditor(QMainWindow):
         self.editor = QTextEdit()
         self.preview = QWebEngineView()
         self.highlighter = MarkdownHighlighter(self.editor.document())
+
+        self.editor.setStyleSheet("""
+            QTextEdit {
+                background: url(background.png) no-repeat center center;
+                color: #f745e0;
+                font-size: 15px;
+                font-family: Arial;
+                border: none;
+            }
+        """)
 
         self.editor.textChanged.connect(self.update_preview)
 
@@ -102,7 +112,6 @@ class MarkdownEditor(QMainWindow):
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
 
-        # 👇 Clickable "Theme" button in the menu bar (not a submenu)
         theme_action = QAction("Theme", self)
         theme_action.triggered.connect(self.toggle_theme)
         menu.addAction(theme_action)
