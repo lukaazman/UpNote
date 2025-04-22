@@ -1,11 +1,12 @@
 import sys
 import re
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QTextEdit, QVBoxLayout, QWidget, QFileDialog
+    QApplication, QMainWindow, QTextEdit, QVBoxLayout, QWidget, QFileDialog, 
+    QHBoxLayout, QFrame
 )
 from PyQt6.QtGui import QAction, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtCore import QRegularExpression
+from PyQt6.QtCore import QRegularExpression, Qt
 import markdown
 
 class MarkdownHighlighter(QSyntaxHighlighter):
@@ -63,32 +64,50 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background: url(background.png) no-repeat center center;
                 color: #f745e0;
-                font-size: 15px;
+                font-size: 40px;
                 font-family: Arial;
+                line-height: 5.4;
                 border: none;
+                padding: 40px;
             }
         """)
 
         self.editor.textChanged.connect(self.update_preview)
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.editor)
-        layout.addWidget(self.preview)
+        main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+
+        editor_container = QHBoxLayout()
+        editor_container.setContentsMargins(0, 40, 0, 40)
+
+        left_spacer = QFrame()
+        left_spacer.setFixedWidth(int(self.width() * 0.125))
+        editor_container.addWidget(left_spacer)
+
+        editor_container.addWidget(self.editor, 75)
+
+        right_spacer = QFrame()
+        right_spacer.setFixedWidth(int(self.width() * 0.125))
+        editor_container.addWidget(right_spacer)
+
+        preview_container = QHBoxLayout()
+        preview_container.setContentsMargins(0, 0, 0, 0)
+        preview_container.addWidget(self.preview)
+
+        main_layout.addLayout(editor_container)
+        main_layout.addLayout(preview_container)
 
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(main_layout)
 
-        self.central_widget = QWidget(self)
-        self.setCentralWidget(self.central_widget)
-
-        main_layout = QVBoxLayout(self.central_widget)
-        main_layout.addWidget(container)
+        self.setCentralWidget(container)
 
         self.create_menu()
 
         self.setWindowTitle("UpNote")
         self.setWindowIcon(QIcon("icon.png"))
-        self.resize(1280, 720)
+        self.showMaximized()
         self.apply_light_theme()
 
     def create_menu(self):
@@ -116,6 +135,16 @@ class MarkdownEditor(QMainWindow):
         theme_action.triggered.connect(self.toggle_theme)
         menu.addAction(theme_action)
 
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        width = self.width()
+        left_right_width = int(width * 0.125)
+        for i in range(self.centralWidget().layout().count()):
+            item = self.centralWidget().layout().itemAt(i)
+            if isinstance(item, QHBoxLayout) and item.count() > 2:
+                item.itemAt(0).widget().setFixedWidth(left_right_width)
+                item.itemAt(2).widget().setFixedWidth(left_right_width)
+
     def toggle_theme(self):
         self.dark_mode = not self.dark_mode
         if self.dark_mode:
@@ -128,9 +157,11 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background-color: white;
                 color: #f745e0;
-                font-size: 15px;
+                font-size: 40px;
                 font-family: Arial;
+                line-height: 5.4;
                 border: none;
+                padding: 40px;
             }
             QMenuBar {
                 background-color: #f0f0f0;
@@ -154,9 +185,11 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background-color: #2e2e2e;
                 color: #f745e0;
-                font-size: 15px;
+                font-size: 40px;
                 font-family: Arial;
+                line-height: 5.4;
                 border: none;
+                padding: 40px;
             }
             QMenuBar {
                 background-color: #3c3c3c;
@@ -183,23 +216,24 @@ class MarkdownEditor(QMainWindow):
                 <style>
                     body {{
                         font-family: Arial, sans-serif;
-                        line-height: 1.6;
-                        padding: 20px;
-                        max-width: 800px;
-                        margin: 0 auto;
+                        line-height: 4.8;
+                        padding: 40px;
+                        max-width: 75%;
+                        margin: 40px auto;
                         color: #f745e0;
                         background-color: {"#2e2e2e" if self.dark_mode else "white"};
+                        font-size: 40px;
                     }}
                     pre {{
                         background-color: #f0f0f0;
-                        padding: 10px;
+                        padding: 20px;
                         border-radius: 3px;
                         overflow-x: auto;
                     }}
                     code {{
                         font-family: Courier, monospace;
                         background-color: #f0f0f0;
-                        padding: 2px 4px;
+                        padding: 5px 10px;
                         border-radius: 3px;
                     }}
                 </style>
