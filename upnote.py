@@ -30,15 +30,44 @@ class MarkdownHighlighter(QSyntaxHighlighter):
         code_format.setFontFamily('Consolas')
         self.highlighting_rules.append((QRegularExpression(r'(`)([^`\n]+)(`)'), [syntax_format, code_format, syntax_format]))
 
-        heading_format = QTextCharFormat()
-        heading_format.setFontWeight(800)
-        heading_format.setForeground(QColor('#45f1f7'))
-        self.highlighting_rules.append((QRegularExpression(r'^(#{1,6})\s+(.+)$'), [heading_format, heading_format]))
+        heading_styles = [
+        (1, 2.0),      # h1
+        (2, 1.8125),   # h2
+        (3, 1.75),     # h3
+        (4, 1.525),    # h4
+        (5, 1.325),    # h5
+        (6, 1.15)      # h6
+        ]
+
+        for level, size in heading_styles:
+            pattern = QRegularExpression(rf'^(#{{{level}}})\s+(.+)$')
+            hash_format = QTextCharFormat()
+            hash_format.setFontWeight(800)
+            hash_format.setForeground(QColor('#45f1f7'))
+
+            text_format = QTextCharFormat()
+            text_format.setFontWeight(800)
+            text_format.setForeground(QColor('#45f1f7'))
+            # font size is set to 30px size factor
+            text_format.setFontPointSize(size * 30)
+
+            self.highlighting_rules.append((pattern, [hash_format, text_format]))
+
 
         highlight_format = QTextCharFormat()
         highlight_format.setBackground(QColor('#f745e0'))
         highlight_format.setForeground(QColor('#ffffff'))
         self.highlighting_rules.append((QRegularExpression(r'(==)([^=\n]+)(==)'), [syntax_format, highlight_format, syntax_format]))
+
+        subscript_format = QTextCharFormat()
+        subscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSubScript)
+        self.highlighting_rules.append((QRegularExpression(r'~([^~\n]+)~'), [syntax_format, subscript_format, syntax_format]))
+
+        superscript_format = QTextCharFormat()
+        superscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSuperScript)
+        self.highlighting_rules.append((QRegularExpression(r'(\^)([^^\n]+)(\^)'),[syntax_format, superscript_format, syntax_format]))
+
+
 
     def highlightBlock(self, text):
         for pattern, formats in self.highlighting_rules:
@@ -64,11 +93,15 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background: url(background.png) no-repeat center center;
                 color: #f745e0;
-                font-size: 40px;
+                font-size: 30px;
                 font-family: Arial;
                 line-height: 5.4;
                 border: none;
                 padding: 40px;
+            }
+            QTextEdit QScrollBar:vertical, QTextEdit QScrollBar:horizontal {
+                width: 0px;
+                height: 0px;
             }
         """)
 
@@ -157,7 +190,7 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background-color: white;
                 color: #f745e0;
-                font-size: 40px;
+                font-size: 30px;
                 font-family: Arial;
                 line-height: 5.4;
                 border: none;
@@ -185,7 +218,7 @@ class MarkdownEditor(QMainWindow):
             QTextEdit {
                 background-color: #2e2e2e;
                 color: #f745e0;
-                font-size: 40px;
+                font-size: 30px;
                 font-family: Arial;
                 line-height: 5.4;
                 border: none;
@@ -222,7 +255,7 @@ class MarkdownEditor(QMainWindow):
                         margin: 40px auto;
                         color: #f745e0;
                         background-color: {"#2e2e2e" if self.dark_mode else "white"};
-                        font-size: 40px;
+                        font-size: 30px;
                     }}
                     pre {{
                         background-color: #f0f0f0;
