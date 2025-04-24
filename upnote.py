@@ -61,7 +61,7 @@ class MarkdownHighlighter(QSyntaxHighlighter):
 
         subscript_format = QTextCharFormat()
         subscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSubScript)
-        self.highlighting_rules.append((QRegularExpression(r'~([^~\n]+)~'), [syntax_format, subscript_format, syntax_format]))
+        self.highlighting_rules.append((QRegularExpression(r'(~)([^~\n]+)(~)'), [syntax_format, subscript_format, syntax_format]))
 
         superscript_format = QTextCharFormat()
         superscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSuperScript)
