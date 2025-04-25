@@ -198,14 +198,14 @@ class MarkdownEditor(QMainWindow):
             }
             QMenuBar {
                 background-color: #f0f0f0;
-                color: #333;
+                color: #f745e0;
             }
             QMenu {
                 background-color: #f0f0f0;
                 color: #f745e0;
             }
             QMenu::item:selected {
-                background-color: #c256fc;
+                background-color: #45f1f7;
                 color: white;
             }
             QWidget {
@@ -226,15 +226,15 @@ class MarkdownEditor(QMainWindow):
             }
             QMenuBar {
                 background-color: #3c3c3c;
-                color: white;
+                color: #45f1f7;
             }
             QMenu {
                 background-color: #3c3c3c;
-                color: #f745e0;
+                color: #45f1f7;
             }
             QMenu::item:selected {
-                background-color: #c256fc;
-                color: white;
+                background-color: #f745e0;
+                color: black;
             }
             QWidget {
                 background-color: #2e2e2e;
