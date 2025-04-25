@@ -25,3 +25,7 @@ A lightweight markdown editor built with Python that supports basic markdown syn
 
 ## Usage
 - Open the application either via file explorer or console, and you can start writing markdown.
+
+
+## Future
+- It will eventually be built into an .exe program format, once it reaches out of production days.
