@@ -200,6 +200,9 @@ class MarkdownEditor(QMainWindow):
                 background-color: #f0f0f0;
                 color: #f745e0;
             }
+            QMenuBar::selected {
+                color:#45f1f7;
+            }
             QMenu {
                 background-color: #f0f0f0;
                 color: #f745e0;
@@ -227,6 +230,9 @@ class MarkdownEditor(QMainWindow):
             QMenuBar {
                 background-color: #3c3c3c;
                 color: #45f1f7;
+            }
+            QMenuBar::selected {
+                color:#f745e0;
             }
             QMenu {
                 background-color: #3c3c3c;
