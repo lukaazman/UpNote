@@ -48,7 +48,7 @@ class MarkdownHighlighter(QSyntaxHighlighter):
             text_format = QTextCharFormat()
             text_format.setFontWeight(800)
             text_format.setForeground(QColor('#45f1f7'))
-            # font size is set to 30px size factor
+            # font size scaled from a 30 pt base
             text_format.setFontPointSize(size * 30)
 
             self.highlighting_rules.append((pattern, [hash_format, text_format]))
@@ -172,11 +172,13 @@ class MarkdownEditor(QMainWindow):
         super().resizeEvent(event)
         width = self.width()
         left_right_width = int(width * 0.125)
-        for i in range(self.centralWidget().layout().count()):
-            item = self.centralWidget().layout().itemAt(i)
-            if isinstance(item, QHBoxLayout) and item.count() > 2:
-                item.itemAt(0).widget().setFixedWidth(left_right_width)
-                item.itemAt(2).widget().setFixedWidth(left_right_width)
+        layout = self.centralWidget().layout()
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
+            child_layout = item.layout()
+            if isinstance(child_layout, QHBoxLayout) and child_layout.count() > 2:
+                child_layout.itemAt(0).widget().setFixedWidth(left_right_width)
+                child_layout.itemAt(2).widget().setFixedWidth(left_right_width)
 
     def toggle_theme(self):
         self.dark_mode = not self.dark_mode
@@ -184,6 +186,7 @@ class MarkdownEditor(QMainWindow):
             self.apply_dark_theme()
         else:
             self.apply_light_theme()
+        self.update_preview()
 
     def apply_light_theme(self):
         self.setStyleSheet("""
@@ -202,6 +205,7 @@ class MarkdownEditor(QMainWindow):
             }
             QMenuBar::selected {
                 color:#45f1f7;
+                backgound-color: #f745e0;
             }
             QMenu {
                 background-color: #f0f0f0;
@@ -233,6 +237,7 @@ class MarkdownEditor(QMainWindow):
             }
             QMenuBar::selected {
                 color:#f745e0;
+                background-color: #45f1f7;
             }
             QMenu {
                 background-color: #3c3c3c;
