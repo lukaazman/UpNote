@@ -64,21 +64,35 @@ class MarkdownHighlighter(QSyntaxHighlighter):
 
             self.highlighting_rules.append((pattern, [hash_format, text_format]))
 
-
         highlight_format = QTextCharFormat()
         highlight_format.setBackground(QColor('#f745e0'))
         highlight_format.setForeground(QColor('#ffffff'))
-        self.highlighting_rules.append((QRegularExpression(r'(==)([^=\n]+)(==)'), [syntax_format, highlight_format, syntax_format]))
+        self.highlighting_rules.append((
+            QRegularExpression(
+                r'(?<![=])(==)(?!\s)([^=\n]+?)(?<!\s)(==)(?![=])'
+            ),
+            [syntax_format, highlight_format, syntax_format]
+        ))
+
 
         subscript_format = QTextCharFormat()
         subscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSubScript)
-        self.highlighting_rules.append((QRegularExpression(r'(~)([^~\n]+)(~)'), [syntax_format, subscript_format, syntax_format]))
+        self.highlighting_rules.append((
+            QRegularExpression(
+                r'(?<!~)(~)(?!\s)([^~\n]+?)(?<!\s)(~)(?!~)'
+            ),
+            [syntax_format, subscript_format, syntax_format]
+        ))
+
 
         superscript_format = QTextCharFormat()
         superscript_format.setVerticalAlignment(QTextCharFormat.VerticalAlignment.AlignSuperScript)
-        self.highlighting_rules.append((QRegularExpression(r'(\^)([^^\n]+)(\^)'),[syntax_format, superscript_format, syntax_format]))
-
-
+        self.highlighting_rules.append((
+            QRegularExpression(
+                r'(?<!\^)(\^)(?!\s)([^^\n]+?)(?<!\s)(\^)(?!\^)'
+            ),
+            [syntax_format, superscript_format, syntax_format]
+        ))
 
     def highlightBlock(self, text):
         for pattern, formats in self.highlighting_rules:
