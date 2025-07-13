@@ -28,4 +28,4 @@ A lightweight markdown editor built with Python that supports basic markdown syn
 
 
 ## Future
-- It will eventually be built into an .exe program format, once it leaves the development phase.
+- Building it into an .exe program format, once it leaves the development phase.
