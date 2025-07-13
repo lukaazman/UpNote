@@ -19,16 +19,27 @@ class MarkdownHighlighter(QSyntaxHighlighter):
 
         italic_format = QTextCharFormat()
         italic_format.setFontItalic(True)
-        self.highlighting_rules.append((QRegularExpression(r'(\*)([^*\n]+)(\*)'), [syntax_format, italic_format, syntax_format]))
+        self.highlighting_rules.append((
+            QRegularExpression(r'(?<!\*)(\*)(?!\s)([^*\n]+?)(?<!\s)(\*)(?!\*)'),
+            [syntax_format, italic_format, syntax_format]
+        ))
+
 
         bold_format = QTextCharFormat()
         bold_format.setFontWeight(750)
-        self.highlighting_rules.append((QRegularExpression(r'(\*\*)([^*\n]+)(\*\*)'), [syntax_format, bold_format, syntax_format]))
+        self.highlighting_rules.append((
+            QRegularExpression(r'(?<!\*)(\*\*)(?!\s)([^*\n]+?)(?<!\s)(\*\*)(?!\*)'),
+            [syntax_format, bold_format, syntax_format]
+        ))
+
 
         code_format = QTextCharFormat()
         code_format.setBackground(QColor('#45f1f7'))
         code_format.setFontFamily('Consolas')
-        self.highlighting_rules.append((QRegularExpression(r'(`)([^`\n]+)(`)'), [syntax_format, code_format, syntax_format]))
+        self.highlighting_rules.append((
+            QRegularExpression(r'(?<!`)(`)(?!\s)([^`\n]+?)(?<!\s)(`)(?!`)'),
+            [syntax_format, code_format, syntax_format]
+        ))
 
         heading_styles = [
         (1, 2.0),      # h1
@@ -90,16 +101,7 @@ class MarkdownEditor(QMainWindow):
         self.highlighter = MarkdownHighlighter(self.editor.document())
 
         self.editor.setStyleSheet("""
-            QTextEdit {
-                background: url(background.png) no-repeat center center;
-                color: #f745e0;
-                font-size: 30px;
-                font-family: Arial;
-                line-height: 5.4;
-                border: none;
-                padding: 40px;
-            }
-            QTextEdit QScrollBar:vertical, QTextEdit QScrollBar:horizontal {
+            QScrollBar:vertical, QScrollBar:horizontal {
                 width: 0px;
                 height: 0px;
             }
@@ -191,6 +193,7 @@ class MarkdownEditor(QMainWindow):
     def apply_light_theme(self):
         self.setStyleSheet("""
             QTextEdit {
+                background: url(background.png) no-repeat center center;
                 background-color: white;
                 color: #f745e0;
                 font-size: 30px;
@@ -223,6 +226,7 @@ class MarkdownEditor(QMainWindow):
     def apply_dark_theme(self):
         self.setStyleSheet("""
             QTextEdit {
+                background: url(background.png) no-repeat center center;
                 background-color: #2e2e2e;
                 color: #f745e0;
                 font-size: 30px;
