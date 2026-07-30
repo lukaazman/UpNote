@@ -132,34 +132,13 @@ st.markdown(
         border: 1px solid var(--border);
       }}
 
-      .panel {{
-        padding: 1rem;
-        border-radius: 1.4rem;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(18px);
-      }}
-
-      .panel--strong {{
-        background: var(--panel-strong);
-      }}
-
-      .panel-title {{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 0.75rem;
-      }}
-
-      .panel-title h3 {{
-        margin: 0;
-        font-size: 1rem;
-      }}
-
-      .meta {{
+      .section-label {{
+        margin: 0 0 0.6rem;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
         color: var(--muted);
-        font-size: 0.85rem;
+        font-weight: 700;
       }}
 
       .card-grid {{
@@ -299,63 +278,43 @@ st.markdown(
 left, right = st.columns([1.05, 1.0], gap="large")
 
 with left:
-    st.markdown(
-        """
-        <div class="panel panel--strong">
-          <div class="panel-title">
-            <h3>Editor</h3>
-            <span class="meta">Markdown source</span>
-          </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    content = st.text_area(
-        "Markdown source",
-        key="content",
-        height=520,
-        label_visibility="collapsed",
-    )
-    save_col, hint_col = st.columns([0.42, 0.58])
-    with save_col:
-        st.download_button(
-            "Save Markdown",
-            data=content,
-            file_name="upnote.md",
-            mime="text/markdown",
-            use_container_width=True,
+    st.markdown("<div class='section-label'>Editor</div>", unsafe_allow_html=True)
+    with st.container(border=True):
+        content = st.text_area(
+            "Markdown source",
+            key="content",
+            height=520,
+            label_visibility="collapsed",
         )
-    with hint_col:
-        st.markdown(
-            "<div class='footer-note'>Drag in a `.md` file, edit inline, then export the exact text you wrote.</div>",
-            unsafe_allow_html=True,
-        )
-    st.markdown("</div>", unsafe_allow_html=True)
+        save_col, hint_col = st.columns([0.42, 0.58])
+        with save_col:
+            st.download_button(
+                "Save Markdown",
+                data=content,
+                file_name="upnote.md",
+                mime="text/markdown",
+                use_container_width=True,
+            )
+        with hint_col:
+            st.markdown(
+                "<div class='footer-note'>Drag in a `.md` file, edit inline, then export the exact text you wrote.</div>",
+                unsafe_allow_html=True,
+            )
 
 with right:
-    rendered = markdown.markdown(content, extensions=["extra", "sane_lists", "smarty"])
-    st.markdown(
-        """
-        <div class="panel">
-          <div class="panel-title">
-            <h3>Preview</h3>
-            <span class="meta">Rendered output</span>
-          </div>
-          <div class="preview-shell">
-            <div class="preview-content">
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown(rendered, unsafe_allow_html=True)
-    st.markdown(
-        """
+    st.markdown("<div class='section-label'>Preview</div>", unsafe_allow_html=True)
+    with st.container(border=True):
+        rendered = markdown.markdown(content, extensions=["extra", "sane_lists", "smarty"])
+        st.markdown("<div class='preview-shell'><div class='preview-content'>", unsafe_allow_html=True)
+        st.markdown(rendered, unsafe_allow_html=True)
+        st.markdown("</div></div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="card-grid">
+              <div class="note-card"><strong>Focused</strong><span>Minimal chrome and a calm reading surface.</span></div>
+              <div class="note-card"><strong>Branded</strong><span>Icon, palette, and layout stay on theme.</span></div>
+              <div class="note-card"><strong>Portable</strong><span>Works as a plain Streamlit Community Cloud app.</span></div>
             </div>
-          </div>
-        </div>
-        <div class="card-grid">
-          <div class="note-card"><strong>Focused</strong><span>Minimal chrome and a calm reading surface.</span></div>
-          <div class="note-card"><strong>Branded</strong><span>Icon, palette, and layout stay on theme.</span></div>
-          <div class="note-card"><strong>Portable</strong><span>Works as a plain Streamlit Community Cloud app.</span></div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+            """,
+            unsafe_allow_html=True,
+        )
