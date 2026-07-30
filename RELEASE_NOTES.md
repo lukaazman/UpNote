@@ -1,5 +1,5 @@
-# UpNote 1.0.1
+# UpNote 1.0.2
 
-- Portable Windows executable with bundled PNG assets.
-- Improved centered PNG background rendering in the desktop editor.
-- Light/dark desktop themes and Markdown preview.
+- Fixed light-theme crash when switching themes.
+- The PNG background is now rendered once, centered, behind the editor.
+- Unified dark-mode window, editor, and menu background color for a seamless appearance.

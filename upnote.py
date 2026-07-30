@@ -1,11 +1,13 @@
-﻿import sys
+import sys
 import re
 from pathlib import Path
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QTextEdit, QVBoxLayout, QWidget, QFileDialog,
     QHBoxLayout, QFrame
 )
-from PyQt6.QtGui import QAction, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor
+from PyQt6.QtGui import (
+    QAction, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor, QPainter, QPixmap
+)
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import QRegularExpression, Qt
 import markdown
@@ -16,10 +18,25 @@ def resource_path(filename):
     return str(bundle_dir / filename)
 
 
-def stylesheet_asset_url(filename):
-    """Format a local asset path for a Qt stylesheet URL."""
-    return resource_path(filename).replace("\\", "/").replace(" ", "%20")
+class CenteredBackground(QWidget):
+    """Paint the artwork once, centered, behind the editor instead of relying on QSS."""
 
+    def __init__(self):
+        super().__init__()
+        self._artwork = QPixmap(resource_path("background.png"))
+        self._color = QColor("white")
+
+    def set_theme_color(self, color):
+        self._color = QColor(color)
+        self.update()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.fillRect(self.rect(), self._color)
+        if not self._artwork.isNull():
+            x = (self.width() - self._artwork.width()) // 2
+            y = (self.height() - self._artwork.height()) // 2
+            painter.drawPixmap(x, y, self._artwork)
 
 class MarkdownHighlighter(QSyntaxHighlighter):
     def __init__(self, document):
@@ -159,7 +176,7 @@ class MarkdownEditor(QMainWindow):
         main_layout.addLayout(editor_container)
         main_layout.addLayout(preview_container)
 
-        container = QWidget()
+        container = CenteredBackground()
         container.setLayout(main_layout)
 
         self.setCentralWidget(container)
@@ -217,14 +234,10 @@ class MarkdownEditor(QMainWindow):
         self.update_preview()
 
     def apply_light_theme(self):
-        background_url = stylesheet_asset_url("background.png")
-        self.setStyleSheet(f"""
+        self.centralWidget().set_theme_color("white")
+        self.setStyleSheet("""
             QTextEdit, QTextEdit::viewport, QAbstractScrollArea::viewport {
-                background-color: white;
-                background-image: url("{background_url}");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-clip: padding;
+                background: transparent;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
@@ -249,19 +262,14 @@ class MarkdownEditor(QMainWindow):
                 color: white;
             }
             QWidget {
-                background-color: white;
+                background: transparent;
             }
         """)
-
     def apply_dark_theme(self):
-        background_url = stylesheet_asset_url("background.png")
-        self.setStyleSheet(f"""
+        self.centralWidget().set_theme_color("#2e2e2e")
+        self.setStyleSheet("""
             QTextEdit, QTextEdit::viewport, QAbstractScrollArea::viewport {
-                background-color: #2e2e2e;
-                background-image: url("{background_url}");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-clip: padding;
+                background: transparent;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
@@ -270,7 +278,7 @@ class MarkdownEditor(QMainWindow):
                 padding: 40px;
             }
             QMenuBar {
-                background-color: #3c3c3c;
+                background-color: #2e2e2e;
                 color: #45f1f7;
             }
             QMenuBar::selected {
@@ -278,7 +286,7 @@ class MarkdownEditor(QMainWindow):
                 background-color: #45f1f7;
             }
             QMenu {
-                background-color: #3c3c3c;
+                background-color: #2e2e2e;
                 color: #45f1f7;
             }
             QMenu::item:selected {
@@ -286,10 +294,9 @@ class MarkdownEditor(QMainWindow):
                 color: black;
             }
             QWidget {
-                background-color: #2e2e2e;
+                background: transparent;
             }
         """)
-
     def update_preview(self):
         html = markdown.markdown(self.editor.toPlainText())
         self.preview.setHtml(f"""
