@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import re
 from pathlib import Path
 from PyQt6.QtWidgets import (
@@ -220,8 +220,11 @@ class MarkdownEditor(QMainWindow):
         background_url = stylesheet_asset_url("background.png")
         self.setStyleSheet(f"""
             QTextEdit {
-                background: url("{background_url}") no-repeat center center;
                 background-color: white;
+                background-image: url("{background_url}");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-origin: padding;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
@@ -254,8 +257,11 @@ class MarkdownEditor(QMainWindow):
         background_url = stylesheet_asset_url("background.png")
         self.setStyleSheet(f"""
             QTextEdit {
-                background: url("{background_url}") no-repeat center center;
                 background-color: #2e2e2e;
+                background-image: url("{background_url}");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-origin: padding;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
