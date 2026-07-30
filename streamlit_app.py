@@ -1,4 +1,4 @@
-"""Branded UpNote preview for Streamlit Community Cloud."""
+"""UpNote browser preview for Streamlit Community Cloud."""
 
 from __future__ import annotations
 
@@ -28,27 +28,15 @@ st.markdown(
     f"""
     <style>
       :root {{
-        --bg: #fff8fb;
-        --panel: rgba(255, 255, 255, 0.84);
-        --panel-strong: rgba(255, 255, 255, 0.94);
-        --text: #221826;
-        --muted: #6f6474;
-        --accent: #f745e0;
-        --accent-2: #6f5cff;
-        --accent-3: #ff8cc8;
-        --border: rgba(34, 24, 38, 0.10);
-        --shadow: 0 26px 80px rgba(72, 22, 57, 0.16);
+        --pink: #f745e0;
+        --cyan: #45f1f7;
+        --light: #ffffff;
+        --dark: #2e2e2e;
       }}
 
       .stApp {{
-        background:
-          radial-gradient(circle at top left, rgba(247, 69, 224, 0.18), transparent 28%),
-          radial-gradient(circle at top right, rgba(111, 92, 255, 0.14), transparent 22%),
-          linear-gradient(180deg, rgba(255, 248, 251, 0.94), rgba(255, 248, 251, 0.84)),
-          url("{asset_data_uri(BACKGROUND_PATH)}");
+        background: url("{asset_data_uri(BACKGROUND_PATH)}") no-repeat center center fixed;
         background-size: cover;
-        background-attachment: fixed;
-        color: var(--text);
       }}
 
       [data-testid="stHeader"], [data-testid="stToolbar"], #MainMenu, footer {{
@@ -57,179 +45,80 @@ st.markdown(
       }}
 
       .block-container {{
-        padding-top: 1.5rem;
-        padding-bottom: 2rem;
-      }}
-
-      .hero {{
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        padding: 1rem 1.25rem;
-        border: 1px solid var(--border);
-        border-radius: 1.5rem;
-        background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(18px);
-      }}
-
-      .brand-mark {{
-        width: 3rem;
-        height: 3rem;
-        border-radius: 0.9rem;
-        overflow: hidden;
-        flex: 0 0 auto;
-        box-shadow: 0 10px 28px rgba(247, 69, 224, 0.22);
-      }}
-
-      .brand-mark img {{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }}
-
-      .eyebrow {{
-        margin: 0;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--accent);
-        font-weight: 700;
-      }}
-
-      .title {{
-        margin: 0.12rem 0 0;
-        font-size: clamp(2rem, 4vw, 3.2rem);
-        line-height: 1.02;
-        font-weight: 800;
-        color: var(--text);
-      }}
-
-      .subtitle {{
-        margin: 0.35rem 0 0;
-        color: var(--muted);
-        font-size: 0.98rem;
-      }}
-
-      .pill-row {{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-top: 0.85rem;
-      }}
-
-      .pill {{
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 0.7rem;
-        border-radius: 999px;
-        font-size: 0.82rem;
-        color: var(--text);
-        background: rgba(255, 255, 255, 0.76);
-        border: 1px solid var(--border);
-      }}
-
-      .section-label {{
-        margin: 0 0 0.6rem;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--muted);
-        font-weight: 700;
-      }}
-
-      .card-grid {{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.8rem;
-        margin-top: 0.8rem;
-      }}
-
-      .note-card {{
-        padding: 0.9rem;
-        border-radius: 1rem;
-        background: rgba(255,255,255,0.92);
-        border: 1px solid rgba(34,24,38,0.08);
-      }}
-
-      .note-card strong {{
-        display: block;
-        font-size: 0.9rem;
-        margin-bottom: 0.25rem;
-      }}
-
-      .note-card span {{
-        color: var(--muted);
-        font-size: 0.82rem;
+        padding-top: 0.75rem;
+        padding-bottom: 1rem;
       }}
 
       div[data-testid="stTextArea"] textarea {{
-        border-radius: 1rem !important;
-        border: 1px solid rgba(34, 24, 38, 0.14) !important;
-        background: rgba(255, 255, 255, 0.94) !important;
-        color: var(--text) !important;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+        background: url("{asset_data_uri(BACKGROUND_PATH)}") no-repeat center center !important;
+        background-color: var(--light) !important;
+        color: var(--pink) !important;
+        font-size: 30px !important;
+        font-family: Arial, sans-serif !important;
+        line-height: 5.4 !important;
+        border: none !important;
+        padding: 40px !important;
       }}
 
-      div[data-testid="stFileUploader"] section {{
-        border-radius: 1rem;
-        border: 1px dashed rgba(247, 69, 224, 0.28);
-        background: rgba(255, 255, 255, 0.78);
-      }}
-
-      div[data-testid="stDownloadButton"] button,
-      div[data-testid="stButton"] button {{
-        border-radius: 999px !important;
-        border: 0 !important;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
-        color: white !important;
-        font-weight: 700 !important;
-        padding: 0.65rem 1rem !important;
-        box-shadow: 0 18px 30px rgba(111, 92, 255, 0.22) !important;
+      div[data-testid="stTextArea"] textarea:focus {{
+        box-shadow: none !important;
+        outline: none !important;
       }}
 
       .preview-shell {{
-        padding: 1rem 1rem 1.1rem;
-        border-radius: 1.3rem;
-        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84));
-        border: 1px solid rgba(34,24,38,0.08);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+        font-family: Arial, sans-serif;
+        line-height: 4.8;
+        padding: 40px;
+        max-width: 75%;
+        margin: 40px auto;
+        color: var(--pink);
+        font-size: 30px;
+        background-color: var(--light);
       }}
 
-      .preview-content {{
-        color: var(--text);
-        line-height: 1.65;
+      .preview-shell pre {{
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 3px;
+        overflow-x: auto;
       }}
 
-      .preview-content h1, .preview-content h2, .preview-content h3 {{
-        margin-top: 1.2em;
-        margin-bottom: 0.45em;
+      .preview-shell code {{
+        font-family: Courier, monospace;
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 3px;
       }}
 
-      .preview-content code {{
-        background: rgba(111, 92, 255, 0.09);
-        padding: 0.14rem 0.35rem;
-        border-radius: 0.45rem;
+      .preview-shell h1, .preview-shell h2, .preview-shell h3, .preview-shell h4, .preview-shell h5, .preview-shell h6 {{
+        color: var(--cyan);
+        font-weight: 800;
       }}
 
-      .preview-content blockquote {{
-        border-left: 4px solid var(--accent);
+      .preview-shell a {{
+        color: var(--cyan);
+      }}
+
+      .preview-shell blockquote {{
+        border-left: 4px solid var(--cyan);
         margin-left: 0;
         padding-left: 1rem;
-        color: var(--muted);
       }}
 
-      .preview-content a {{
-        color: var(--accent-2);
-      }}
+      @media (max-width: 900px) {{
+        .preview-shell {{
+          max-width: 100%;
+          margin: 20px 0 0;
+          padding: 24px;
+          font-size: 24px;
+          line-height: 1.7;
+        }}
 
-      .footer-note {{
-        margin-top: 0.85rem;
-        color: var(--muted);
-        font-size: 0.82rem;
+        div[data-testid="stTextArea"] textarea {{
+          font-size: 24px !important;
+          line-height: 1.7 !important;
+          padding: 24px !important;
+        }}
       }}
     </style>
     """,
@@ -239,82 +128,16 @@ st.markdown(
 if "content" not in st.session_state:
     st.session_state.content = (
         "# Welcome to UpNote\n\n"
-        "Write **Markdown** on the left and see the polished preview on the right.\n\n"
-        "- Fast drafting\n"
-        "- Clean formatting\n"
-        "- Shared from Streamlit Cloud\n\n"
-        "> This preview is branded to match the app instead of the default Streamlit template.\n"
+        "Write **Markdown** here and see the preview below.\n\n"
+        "==Highlight==, `inline code`, and [links](https://github.com/lukaazman/UpNote) are supported.\n"
     )
 
-uploaded = st.file_uploader("Open a Markdown file", type=["md", "markdown"])
-if uploaded is not None:
-    st.session_state.content = uploaded.getvalue().decode("utf-8")
-
-content = st.session_state.content
-word_count = len(content.split())
-line_count = content.count("\n") + 1
-char_count = len(content)
-
-st.markdown(
-    f"""
-    <div class="hero">
-      <div class="brand-mark"><img src="{asset_data_uri(ICON_PATH)}" alt="UpNote icon"></div>
-      <div>
-        <p class="eyebrow">UpNote preview</p>
-        <h1 class="title">Your note app, not the default Streamlit template.</h1>
-        <p class="subtitle">A branded browser preview that keeps the icon, palette, spacing, and editor flow aligned with UpNote.</p>
-        <div class="pill-row">
-          <span class="pill">{word_count} words</span>
-          <span class="pill">{line_count} lines</span>
-          <span class="pill">{char_count} chars</span>
-          <span class="pill">Community Cloud friendly</span>
-        </div>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
+st.session_state.content = st.text_area(
+    "Markdown source",
+    key="content",
+    height=520,
+    label_visibility="collapsed",
 )
 
-left, right = st.columns([1.05, 1.0], gap="large")
-
-with left:
-    st.markdown("<div class='section-label'>Editor</div>", unsafe_allow_html=True)
-    with st.container(border=True):
-        content = st.text_area(
-            "Markdown source",
-            key="content",
-            height=520,
-            label_visibility="collapsed",
-        )
-        save_col, hint_col = st.columns([0.42, 0.58])
-        with save_col:
-            st.download_button(
-                "Save Markdown",
-                data=content,
-                file_name="upnote.md",
-                mime="text/markdown",
-                use_container_width=True,
-            )
-        with hint_col:
-            st.markdown(
-                "<div class='footer-note'>Drag in a `.md` file, edit inline, then export the exact text you wrote.</div>",
-                unsafe_allow_html=True,
-            )
-
-with right:
-    st.markdown("<div class='section-label'>Preview</div>", unsafe_allow_html=True)
-    with st.container(border=True):
-        rendered = markdown.markdown(content, extensions=["extra", "sane_lists", "smarty"])
-        st.markdown("<div class='preview-shell'><div class='preview-content'>", unsafe_allow_html=True)
-        st.markdown(rendered, unsafe_allow_html=True)
-        st.markdown("</div></div>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            <div class="card-grid">
-              <div class="note-card"><strong>Focused</strong><span>Minimal chrome and a calm reading surface.</span></div>
-              <div class="note-card"><strong>Branded</strong><span>Icon, palette, and layout stay on theme.</span></div>
-              <div class="note-card"><strong>Portable</strong><span>Works as a plain Streamlit Community Cloud app.</span></div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+rendered = markdown.markdown(st.session_state.content)
+st.markdown(f"<div class='preview-shell'>{rendered}</div>", unsafe_allow_html=True)
