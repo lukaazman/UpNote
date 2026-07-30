@@ -219,12 +219,12 @@ class MarkdownEditor(QMainWindow):
     def apply_light_theme(self):
         background_url = stylesheet_asset_url("background.png")
         self.setStyleSheet(f"""
-            QTextEdit {
+            QTextEdit, QTextEdit::viewport, QAbstractScrollArea::viewport {
                 background-color: white;
                 background-image: url("{background_url}");
                 background-repeat: no-repeat;
                 background-position: center center;
-                background-origin: padding;
+                background-clip: padding;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
@@ -256,12 +256,12 @@ class MarkdownEditor(QMainWindow):
     def apply_dark_theme(self):
         background_url = stylesheet_asset_url("background.png")
         self.setStyleSheet(f"""
-            QTextEdit {
+            QTextEdit, QTextEdit::viewport, QAbstractScrollArea::viewport {
                 background-color: #2e2e2e;
                 background-image: url("{background_url}");
                 background-repeat: no-repeat;
                 background-position: center center;
-                background-origin: padding;
+                background-clip: padding;
                 color: #f745e0;
                 font-size: 30px;
                 font-family: Arial;
