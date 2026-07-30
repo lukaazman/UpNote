@@ -46,9 +46,8 @@ The output is created under `release\` as `UpNote-1.0.0-windows.zip`. The packag
 
 ## Streamlit Cloud deployment
 
-1. Open [Streamlit Community Cloud](https://share.streamlit.io/).
-2. Choose **Deploy an app**, select `lukaazman/UpNote`, branch `main`, and file `streamlit_app.py`.
-3. Set the app name to `upnote` (or update the badge URL above if another name is chosen).
-4. Every push to `main` redeploys the preview automatically.
-
+1. Open [Streamlit Community Cloud](https://share.streamlit.io/) and click **Create app**.
+2. Select repository `lukaazman/UpNote`, branch `main`, and file `streamlit_app.py`.
+3. Set the app URL/subdomain to `upnote`, so the public URL is `https://upnote.streamlit.app`.
+4. Click **Deploy**. Every later push to `main` redeploys the preview automatically.
 The live preview is intended for quick browser testing of the Markdown editor. The full PyQt6 desktop experience remains available in the Windows release package.
