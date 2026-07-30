@@ -4,6 +4,8 @@ A lightweight Markdown editor built with Python. The desktop app uses PyQt6 and 
 
 [![Open live app](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://upnote.streamlit.app)
 
+[Deploy to Streamlit Cloud](https://share.streamlit.io/deploy?repository=lukaazman/UpNote&branch=main&mainModulePath=streamlit_app.py)
+
 ## Features
 
 - Markdown editor with live HTML preview
