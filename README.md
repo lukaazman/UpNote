@@ -1,13 +1,10 @@
-# UpNote
+﻿# UpNote
 
-A lightweight Markdown editor with a desktop app and a browser preview.
+A lightweight Markdown editor with a packaged Windows app.
 
-[![Open live app](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://upnote.streamlit.app)
+Download the latest release:
 
-## Use
-
-- Open the live browser preview at `https://upnote.streamlit.app`.
-- Download the Windows release ZIP from the GitHub Releases page and run `UpNote.exe`.
+https://github.com/lukaazman/UpNote/releases/latest
 
 ## Features
 
@@ -15,4 +12,9 @@ A lightweight Markdown editor with a desktop app and a browser preview.
 - Light/dark theme
 - Open and save `.md` files
 - PNG background and icon assets preserved with alpha transparency in desktop builds
-- Browser preview with the same UpNote colors, spacing, and rendering flow
+
+## Install
+
+1. Open the latest release page.
+2. Download the Windows ZIP.
+3. Extract it and run `UpNote.exe`.
