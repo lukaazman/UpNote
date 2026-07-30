@@ -1,0 +1,5 @@
+PyQt6>=6.9,<7
+PyQt6-WebEngine>=6.9,<7
+Markdown>=3.7,<4
+streamlit>=1.45,<2
+pyinstaller>=6.13,<7

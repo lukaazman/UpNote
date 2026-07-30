@@ -1,13 +1,25 @@
 import sys
 import re
+from pathlib import Path
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QTextEdit, QVBoxLayout, QWidget, QFileDialog, 
+    QApplication, QMainWindow, QTextEdit, QVBoxLayout, QWidget, QFileDialog,
     QHBoxLayout, QFrame
 )
 from PyQt6.QtGui import QAction, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import QRegularExpression, Qt
 import markdown
+
+def resource_path(filename):
+    """Return an asset path that works from source and from a PyInstaller build."""
+    bundle_dir = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+    return str(bundle_dir / filename)
+
+
+def stylesheet_asset_url(filename):
+    """Format a local asset path for a Qt stylesheet URL."""
+    return resource_path(filename).replace("\\", "/").replace(" ", "%20")
+
 
 class MarkdownHighlighter(QSyntaxHighlighter):
     def __init__(self, document):
@@ -155,7 +167,7 @@ class MarkdownEditor(QMainWindow):
         self.create_menu()
 
         self.setWindowTitle("UpNote")
-        self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowIcon(QIcon(resource_path("icon.png")))
         self.showMaximized()
         self.apply_light_theme()
 
@@ -205,9 +217,10 @@ class MarkdownEditor(QMainWindow):
         self.update_preview()
 
     def apply_light_theme(self):
-        self.setStyleSheet("""
+        background_url = stylesheet_asset_url("background.png")
+        self.setStyleSheet(f"""
             QTextEdit {
-                background: url(background.png) no-repeat center center;
+                background: url("{background_url}") no-repeat center center;
                 background-color: white;
                 color: #f745e0;
                 font-size: 30px;
@@ -222,7 +235,7 @@ class MarkdownEditor(QMainWindow):
             }
             QMenuBar::selected {
                 color:#45f1f7;
-                backgound-color: #f745e0;
+                background-color: #f745e0;
             }
             QMenu {
                 background-color: #f0f0f0;
@@ -238,9 +251,10 @@ class MarkdownEditor(QMainWindow):
         """)
 
     def apply_dark_theme(self):
-        self.setStyleSheet("""
+        background_url = stylesheet_asset_url("background.png")
+        self.setStyleSheet(f"""
             QTextEdit {
-                background: url(background.png) no-repeat center center;
+                background: url("{background_url}") no-repeat center center;
                 background-color: #2e2e2e;
                 color: #f745e0;
                 font-size: 30px;
